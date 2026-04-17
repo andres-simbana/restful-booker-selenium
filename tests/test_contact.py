@@ -19,10 +19,5 @@ class TestContact:
     def test_empty_contact_form_does_not_show_success(self, driver, base_url):
         contact = ContactPage(driver)
         contact.open(base_url)
-        contact.scroll_to_form()
-        from selenium.webdriver.support.ui import WebDriverWait
-        from selenium.webdriver.support import expected_conditions as EC
-        WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable(contact._SUBMIT)
-        ).click()
+        contact.js_click(contact._SUBMIT)
         assert not contact.is_success_shown()

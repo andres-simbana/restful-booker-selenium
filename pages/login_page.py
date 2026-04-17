@@ -29,13 +29,12 @@ class LoginPage:
 
     def logout(self):
         self.wait.until(EC.element_to_be_clickable(self._LOGOUT_BTN)).click()
-        self.wait.until(EC.element_to_be_clickable(self._LOGIN_BTN))
+        WebDriverWait(self.driver, 15).until(
+            lambda d: "admin" not in d.current_url
+        )
 
     def is_logged_in(self) -> bool:
-        try:
-            return self.driver.find_element(*self._LOGOUT_BTN).is_displayed()
-        except Exception:
-            return False
+        return "/admin/rooms" in self.driver.current_url
 
     def get_alert_text(self) -> str:
         return self.wait.until(EC.visibility_of_element_located(self._ALERT)).text

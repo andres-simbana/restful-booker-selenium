@@ -24,6 +24,11 @@ class ContactPage:
         el = self.driver.find_element(*self._NAME)
         self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", el)
 
+    def js_click(self, locator):
+        el = self.wait.until(EC.presence_of_element_located(locator))
+        self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", el)
+        self.driver.execute_script("arguments[0].click();", el)
+
     def fill_and_submit(self, name: str, email: str, phone: str, subject: str, message: str) -> None:
         self.scroll_to_form()
         self.wait.until(EC.element_to_be_clickable(self._NAME)).send_keys(name)
@@ -31,7 +36,7 @@ class ContactPage:
         self.driver.find_element(*self._PHONE).send_keys(phone)
         self.driver.find_element(*self._SUBJECT).send_keys(subject)
         self.driver.find_element(*self._MESSAGE).send_keys(message)
-        self.wait.until(EC.element_to_be_clickable(self._SUBMIT)).click()
+        self.js_click(self._SUBMIT)
 
     def is_success_shown(self) -> bool:
         try:
