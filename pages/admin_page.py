@@ -20,9 +20,7 @@ class AdminPage:
         name_field.clear()
         name_field.send_keys(name)
         Select(self.driver.find_element(*self._ROOM_TYPE)).select_by_visible_text(room_type)
-        checkbox = self.driver.find_element(*self._ACCESSIBLE)
-        if checkbox.is_selected() != accessible:
-            checkbox.click()
+        Select(self.driver.find_element(*self._ACCESSIBLE)).select_by_value("true" if accessible else "false")
         price_field = self.driver.find_element(*self._ROOM_PRICE)
         price_field.clear()
         price_field.send_keys(price)
@@ -31,9 +29,7 @@ class AdminPage:
     def room_exists(self, name: str) -> bool:
         try:
             self.wait.until(
-                EC.presence_of_element_located(
-                    (By.XPATH, f"//*[normalize-space(text())='{name}']")
-                )
+                EC.presence_of_element_located((By.ID, f"roomName{name}"))
             )
             return True
         except Exception:
@@ -43,9 +39,9 @@ class AdminPage:
         btn = self.wait.until(
             EC.element_to_be_clickable(
                 (By.XPATH,
-                 f"//*[normalize-space(text())='{name}']"
-                 "/ancestor::div[contains(@class,'row')]"
-                 "//button[contains(@class,'danger') or contains(@id,'delete')]")
+                 f"//p[@id='roomName{name}']"
+                 "/ancestor::div[@data-testid='roomlisting']"
+                 "//span[contains(@class,'roomDelete')]")
             )
         )
         btn.click()

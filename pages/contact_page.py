@@ -4,12 +4,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class ContactPage:
-    _NAME = (By.CSS_SELECTOR, "input[placeholder='Name']")
-    _EMAIL = (By.CSS_SELECTOR, "input[placeholder='Email']")
-    _PHONE = (By.CSS_SELECTOR, "input[placeholder='Phone']")
-    _SUBJECT = (By.CSS_SELECTOR, "input[placeholder='Subject']")
-    _MESSAGE = (By.CSS_SELECTOR, "textarea[placeholder='Message']")
-    _SUBMIT = (By.ID, "submitContact")
+    _NAME = (By.CSS_SELECTOR, "[data-testid='ContactName']")
+    _EMAIL = (By.CSS_SELECTOR, "[data-testid='ContactEmail']")
+    _PHONE = (By.CSS_SELECTOR, "[data-testid='ContactPhone']")
+    _SUBJECT = (By.CSS_SELECTOR, "[data-testid='ContactSubject']")
+    _MESSAGE = (By.CSS_SELECTOR, "[data-testid='ContactDescription']")
+    _SUBMIT = (By.XPATH, "//button[normalize-space(text())='Submit']")
     _SUCCESS = (By.XPATH, "//*[contains(text(),'Thanks for getting in touch')]")
 
     def __init__(self, driver):

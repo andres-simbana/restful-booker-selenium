@@ -37,8 +37,12 @@ def logged_in(driver, base_url):
     login.open(base_url)
     login.login(ADMIN_USER, ADMIN_PASS)
     WebDriverWait(driver, 15).until(
+        EC.url_contains("/admin/rooms"),
+        message="Admin rooms page did not load after login"
+    )
+    WebDriverWait(driver, 15).until(
         EC.presence_of_element_located((By.ID, "roomName")),
-        message="Admin panel did not load after login"
+        message="Room form not visible on admin/rooms page"
     )
     return driver
 
